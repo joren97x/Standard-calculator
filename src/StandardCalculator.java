@@ -74,7 +74,7 @@ class StandardCalculator extends JFrame implements ActionListener{
         num8 = new JButton("8");
         num9 = new JButton("9");
         num0 = new JButton("0");
-        backspaceBtn.setBackground(new Color(244,20,124));
+        backspaceBtn.setBackground(new Color(166,165,161));
         buttonPanel.setBounds(10,125,315,350);
         buttonPanel.setLayout(new GridLayout(6, 4, 5,5));
 

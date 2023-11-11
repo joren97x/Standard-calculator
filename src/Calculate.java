@@ -52,6 +52,9 @@ public class Calculate {
     }
 
     public String negate(String x) {
+        if(Double.parseDouble(x) == 0) {
+            return "0";
+        }
         StringBuilder s = new StringBuilder();
         s.append(x);
         if(x.charAt(0) == '-') {
