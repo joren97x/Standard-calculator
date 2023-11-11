@@ -120,13 +120,17 @@ class StandardCalculator extends JFrame implements ActionListener{
                 memoryValue = Double.parseDouble(result.getText());
                 break;
             case "%": //percentage?
-                
+                System.out.println(c.percentage(currNum, prevNum));
+                currNum = c.percentage(currNum, prevNum);
+                result.setText(formatNumber(currNum));
                 break;
             case "CE": //clear entry
                 currNum = 0;
                 result.setText("0");
                 break;
             case "C": //clear
+                prevOperator = ' ';
+                currOperator = ' ';
                 currNum = 0;
                 prevNum = 0;
                 result.setText("0");
@@ -179,8 +183,6 @@ class StandardCalculator extends JFrame implements ActionListener{
                 currOperator = '-';
                 if(prevOperator != ' ') {
                     performOperation(prevOperator);
-                    // result.setText(formatNumber(c.subtract(prevNum, currNum)));
-                    // result.setText(String.valueOf(c.subtract(prevNum, currNum)));
                 }
                 prevNum = Double.parseDouble(result.getText());
                 
@@ -221,24 +223,6 @@ class StandardCalculator extends JFrame implements ActionListener{
             case "=":
                 System.out.println(prevOperator);
                 performOperation(prevOperator);
-                // switch(prevOperator) {
-                //     case '+':
-                //         prevNum = c.add(prevNum, currNum);
-                //         result.setText(formatNumber(prevNum));
-                //         break;
-                //     case '-':
-                //         prevNum = c.subtract(prevNum, currNum);
-                //         result.setText(formatNumber(prevNum));
-                //         break;
-                //     case 'x':
-                //         prevNum = c.multiply(prevNum, currNum);
-                //         result.setText(formatNumber(prevNum));
-                //         break;
-                //     case '÷':
-                //         prevNum = c.divide(prevNum, currNum);
-                //         result.setText(formatNumber(prevNum));
-                //         break;
-                // } 
                 prevOperator = ' ';
                 break;
         }
