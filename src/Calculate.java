@@ -33,14 +33,6 @@ public class Calculate {
         return (percent / 100) * totalValue;
     }
 
-    public double memoryClear() {
-        return 1;
-    }
-
-    public double memoryMinus() {
-        return 1;
-    }
-
     public double square(double x) {
         return x * x;
     }
@@ -49,15 +41,11 @@ public class Calculate {
         return Math.sqrt(x);
     }
 
-    public double memoryRecall() {
-        return 1;
-    }
-
-    public double memoryPlus() {
-        return 1;
-    }
-
     public String backspace(String x) {
+        System.out.println("From backspace: "+x.length());
+        if(x.equals("0") || x.length() == 0 || x.length() == 1) {
+            return "0";
+        }
         StringBuilder s = new StringBuilder();
         s.append(x);
         return s.substring(0, x.length()-1);
