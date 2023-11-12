@@ -217,6 +217,7 @@ class StandardCalculator extends JFrame implements ActionListener{
                 break;
             case "+/-":
                 result.setText(c.negate(result.getText()));
+                currNum = Double.parseDouble(getResultNum());
                 break;
             case ".": //dot dot
                 if(!result.getText().contains(".")) {
@@ -267,7 +268,7 @@ class StandardCalculator extends JFrame implements ActionListener{
             System.out.println("Not parsed: " + str);
             //no other choice i have to use bigdecimal
             BigDecimal bigDecimalValue = new BigDecimal(str);
-            System.out.println("but if parsed: " + bigDecimalValue);
+            System.out.println("but if parsed: " +formatter.format(bigDecimalValue));
             result.setText(bigDecimalValue.toPlainString());
         }
         else {
