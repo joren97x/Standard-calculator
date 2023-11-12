@@ -232,13 +232,13 @@ class StandardCalculator extends JFrame implements ActionListener{
                 prevOperator = ' ';
                 break;
         }
-        System.out.println("FROM ACTION PERFORMED: ");
+        // System.out.println("FROM ACTION PERFORMED: ");
         System.out.println("Previous number: " + String.valueOf(prevNum));
         System.out.println("Current number: " + String.valueOf(currNum));
         System.out.println("Previous operator: " + prevOperator);
         System.out.println("Current operator: " + currOperator);
-        System.out.println(formatter.format(prevNum));
-        System.out.println("Formatted Number: " + formatter.format(currNum));
+        // System.out.println(formatter.format(prevNum));
+        // System.out.println("Formatted Number: " + formatter.format(currNum));
         System.out.println(" ");
 
     }
@@ -269,10 +269,10 @@ class StandardCalculator extends JFrame implements ActionListener{
         if(result.getText().contains(".")) {
             System.out.println("GOGOGO");
             String str = getResultNum() + num;
-            System.out.println("Not parsed: " + str);
+            // System.out.println("Not parsed: " + str);
             //no other choice i have to use bigdecimal
             BigDecimal bigDecimalValue = new BigDecimal(str);
-            System.out.println("but if parsed: " +formatter.format(bigDecimalValue));
+            // System.out.println("but if parsed: " +formatter.format(bigDecimalValue));
             result.setText(bigDecimalValue.toPlainString());
         }
         else {
