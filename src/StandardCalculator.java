@@ -139,7 +139,6 @@ class StandardCalculator extends JFrame implements ActionListener{
                 break;
             case "mc": //memory clear
                 memoryValue = 0;
-                result.setText("0");
                 break;
             case "CE": //clear entry
                 currNum = 0;
