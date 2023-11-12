@@ -42,7 +42,6 @@ public class Calculate {
     }
 
     public String backspace(String x) {
-        System.out.println("From backspace: "+x.length());
         if(x.equals("0") || x.length() == 0 || x.length() == 1) {
             return "0";
         }

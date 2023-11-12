@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 class StandardCalculator extends JFrame implements ActionListener{
 
@@ -19,9 +21,11 @@ class StandardCalculator extends JFrame implements ActionListener{
     private char prevOperator = ' ';
     private char currOperator = ' ';
     private double memoryValue;
+    private DecimalFormat formatter;
 
     StandardCalculator() {
 
+        formatter = new DecimalFormat("#,###.################");
         this.setTitle("Standard Calculator");
         this.setLayout(null);
         Font buttonFont = new Font("Dialog", Font.PLAIN, 18);
@@ -103,50 +107,6 @@ class StandardCalculator extends JFrame implements ActionListener{
 
         Calculate c = new Calculate();
         switch(e.getActionCommand()) {
-            case "mc": //memory clear
-                memoryValue = 0;
-                result.setText("0");
-                break;
-            case "mr": //memory recall
-                result.setText(formatNumber(memoryValue));
-                break;
-            case "m-": //memory minus
-                memoryValue = c.subtract(memoryValue, Double.parseDouble(result.getText()));
-                break;
-            case "m+": //memory plus
-                memoryValue = c.add(Double.parseDouble(result.getText()), memoryValue);
-                break;
-            case "ms": //memory save
-                memoryValue = Double.parseDouble(result.getText());
-                break;
-            case "%": //percentage?
-                System.out.println(c.percentage(currNum, prevNum));
-                currNum = c.percentage(currNum, prevNum);
-                result.setText(formatNumber(currNum));
-                break;
-            case "CE": //clear entry
-                currNum = 0;
-                result.setText("0");
-                break;
-            case "C": //clear
-                prevOperator = ' ';
-                currOperator = ' ';
-                currNum = 0;
-                prevNum = 0;
-                result.setText("0");
-                break;
-            case "<-": //backspace
-                result.setText(c.backspace(result.getText()));
-                break;
-            case "1/x": //this shit is called reciprocal
-                result.setText(String.valueOf(c.reciprocal(Double.parseDouble(result.getText()))));
-                break;
-            case "x2": //squared
-                result.setText(formatNumber(c.square(Double.parseDouble(result.getText()))));
-                break;
-            case "2√x": //square root!
-                result.setText(String.valueOf(c.squareRoot(Double.parseDouble(result.getText()))));
-                break;
             case "0":
                 setNumber("0");
                 break;
@@ -177,6 +137,50 @@ class StandardCalculator extends JFrame implements ActionListener{
             case "9":
                 setNumber("9");
                 break;
+            case "mc": //memory clear
+                memoryValue = 0;
+                result.setText("0");
+                break;
+            case "CE": //clear entry
+                currNum = 0;
+                result.setText("0");
+                break;
+            case "C": //clear
+                prevOperator = ' ';
+                currOperator = ' ';
+                currNum = 0;
+                prevNum = 0;
+                result.setText("0");
+                break;
+            case "%": //percentage?
+                System.out.println(c.percentage(currNum, prevNum));
+                currNum = c.percentage(currNum, prevNum);
+                result.setText(formatter.format(Double.parseDouble(formatNumber(currNum))));
+                break;
+            case "mr": //memory recall
+                result.setText(formatter.format(Double.parseDouble(formatNumber(memoryValue))));
+                break;
+            case "m-": //memory minus
+                memoryValue = c.subtract(memoryValue, Double.parseDouble(getResultNum()));
+                break;
+            case "m+": //memory plus
+                memoryValue = c.add(Double.parseDouble(getResultNum()), memoryValue);
+                break;
+            case "ms": //memory save
+                memoryValue = Double.parseDouble(getResultNum());
+                break;
+            case "<-": //backspace
+                result.setText(formatter.format(Double.parseDouble(c.backspace(getResultNum()))));
+                break;
+            case "1/x": //this shit is called reciprocal
+                result.setText(formatter.format(Double.parseDouble(String.valueOf(c.reciprocal(Double.parseDouble(getResultNum()))))));
+                break;
+            case "x2": //squared
+                result.setText(formatter.format(Double.parseDouble(formatNumber(c.square(Double.parseDouble(getResultNum()))))));
+                break;
+            case "2√x": //square root!
+                result.setText(formatter.format(Double.parseDouble(String.valueOf(c.squareRoot(Double.parseDouble(getResultNum()))))));
+                break;
             case "-":
                 //i think kung naay prevOperator kay e execute nalang? 
                 //ye, lets try dat
@@ -184,7 +188,7 @@ class StandardCalculator extends JFrame implements ActionListener{
                 if(prevOperator != ' ') {
                     performOperation(prevOperator);
                 }
-                prevNum = Double.parseDouble(result.getText());
+                prevNum = Double.parseDouble(getResultNum());
                 
                 System.out.println(prevOperator);
                 break;
@@ -193,7 +197,7 @@ class StandardCalculator extends JFrame implements ActionListener{
                 if(prevOperator != ' ') {
                     performOperation(prevOperator);
                 }
-                prevNum = Double.parseDouble(result.getText());
+                prevNum = Double.parseDouble(getResultNum());
                 break;
             case "+":
                 //set the currOperator
@@ -202,14 +206,14 @@ class StandardCalculator extends JFrame implements ActionListener{
                     performOperation(prevOperator);
                 }
                 //set the prevNum
-                prevNum = Double.parseDouble(result.getText());
+                prevNum = Double.parseDouble(getResultNum());
                 break;
             case "÷":
                 currOperator = '÷';
                 if(prevOperator != ' ') {
                     performOperation(prevOperator);
                 }
-                prevNum = Double.parseDouble(result.getText());
+                prevNum = Double.parseDouble(getResultNum());
                 break;
             case "+/-":
                 result.setText(c.negate(result.getText()));
@@ -226,10 +230,13 @@ class StandardCalculator extends JFrame implements ActionListener{
                 prevOperator = ' ';
                 break;
         }
+        System.out.println("FROM ACTION PERFORMED: ");
         System.out.println("Previous number: " + String.valueOf(prevNum));
         System.out.println("Current number: " + String.valueOf(currNum));
-        System.out.println("Previous operator: " + prevOperator);
-        System.out.println("Current operator: " + currOperator);
+        // System.out.println("Previous operator: " + prevOperator);
+        // System.out.println("Current operator: " + currOperator);
+        // System.out.println(formatter.format(prevNum));
+        System.out.println("Formatted Number: " + formatter.format(currNum));
         System.out.println(" ");
 
     }
@@ -240,18 +247,33 @@ class StandardCalculator extends JFrame implements ActionListener{
         //if 0 ang ga una unya naay dot pwede ra :)
         //oke
         if(result.getText().startsWith("0") && !result.getText().contains(".")) {
+            //if result textfield starts with 0 but has no dot, reset the textfield
             result.setText("");
+            // System.out.println("aowkoakwoak");
         }
 
         if (currOperator != ' ') {
-            // System.out.println("reset the fucking textifeld");
+            // System.out.println("e reset ang textifeld");
             prevOperator = currOperator;
             currOperator = ' ';
             result.setText("");
         }
-        // System.out.println("Just append");
-        result.setText(result.getText() + num);
-        currNum = Double.parseDouble(result.getText());
+        //so if naay dot dili siya butngan ug comma
+        // System.out.println("Without formatter: " + Double.parseDouble(getResultNum() + num));
+        // System.out.println("With a formatter: " + formatter.format(x));
+        if(result.getText().contains(".")) {
+            System.out.println("GOGOGO");
+            String str = getResultNum() + num;
+            System.out.println("Not parsed: " + str);
+            //no other choice i have to use bigdecimal
+            BigDecimal bigDecimalValue = new BigDecimal(str);
+            System.out.println("but if parsed: " + bigDecimalValue);
+            result.setText(bigDecimalValue.toPlainString());
+        }
+        else {
+            result.setText(formatter.format(Double.parseDouble(getResultNum() + num)));
+        }
+        currNum = Double.parseDouble(getResultNum());
     }
 
     private String formatNumber(double x) {
@@ -265,24 +287,39 @@ class StandardCalculator extends JFrame implements ActionListener{
 
     private void performOperation(char operator) {
         Calculate c = new Calculate();
+        //nganong mawala ang zero sa decimal places kung ibutang sa Double.parsedouble oi boang
+        // System.out.println("FROM EQUALS ");
+        // System.out.println("Previous number: " + String.valueOf(prevNum));
+        // System.out.println("Current number: " + String.valueOf(currNum));
+        // System.out.println(" ");
         switch(operator) {
             case '+':
                 prevNum = c.add(prevNum, currNum);
-                result.setText(formatNumber(prevNum));
+                // String prevNum2 = formatNumber(prevNum);
+                // double prevNum3 = Double.parseDouble(prevNum2);
+                // String prevNum4 = formatter.format(prevNum3);
+                // System.out.println("prev num 2: " + prevNum2);
+                // System.out.println("prev num 3: " + prevNum3);
+                // System.out.println("prev num 4: " + prevNum4);
+                result.setText(formatter.format(Double.parseDouble(formatNumber(prevNum))));
                 break;
             case '-':
                 prevNum = c.subtract(prevNum, currNum);
-                result.setText(formatNumber(prevNum));
+                result.setText(formatter.format(Double.parseDouble(formatNumber(prevNum))));
                 break;
             case 'x':
                 prevNum = c.multiply(prevNum, currNum);
-                result.setText(formatNumber(prevNum));
+                result.setText(formatter.format(Double.parseDouble(formatNumber(prevNum))));
                 break;
             case '÷':
                 prevNum = c.divide(prevNum, currNum);
-                result.setText(formatNumber(prevNum));
+                result.setText(formatter.format(Double.parseDouble(formatNumber(prevNum))));
                 break;
         } 
+    }
+
+    private String getResultNum() {
+        return result.getText().replaceAll(",", "");
     }
 
 }
