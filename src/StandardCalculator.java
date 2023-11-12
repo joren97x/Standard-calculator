@@ -226,6 +226,7 @@ class StandardCalculator extends JFrame implements ActionListener{
                 System.out.println("Bawal bai");
                 break;
             case "=":
+                currOperator = '=';
                 System.out.println(prevOperator);
                 performOperation(prevOperator);
                 prevOperator = ' ';
@@ -234,9 +235,9 @@ class StandardCalculator extends JFrame implements ActionListener{
         System.out.println("FROM ACTION PERFORMED: ");
         System.out.println("Previous number: " + String.valueOf(prevNum));
         System.out.println("Current number: " + String.valueOf(currNum));
-        // System.out.println("Previous operator: " + prevOperator);
-        // System.out.println("Current operator: " + currOperator);
-        // System.out.println(formatter.format(prevNum));
+        System.out.println("Previous operator: " + prevOperator);
+        System.out.println("Current operator: " + currOperator);
+        System.out.println(formatter.format(prevNum));
         System.out.println("Formatted Number: " + formatter.format(currNum));
         System.out.println(" ");
 
@@ -244,6 +245,9 @@ class StandardCalculator extends JFrame implements ActionListener{
 
     private void setNumber(String num) {
 
+        if(currOperator == '=') {
+            result.setText("");
+        }
         //if zero ang ga una remove dat shit 
         //if 0 ang ga una unya naay dot pwede ra :)
         //oke
