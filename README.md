@@ -1,4 +1,4 @@
-# just a standard calculator :3
+# standard calculator :3
 
 ## SETUP
 
