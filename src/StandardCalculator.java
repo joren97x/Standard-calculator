@@ -171,7 +171,7 @@ class StandardCalculator extends JFrame implements ActionListener{
             case "<-": //backspace
                 result.setText(formatter.format(Double.parseDouble(c.backspace(getResultNum()))));
                 break;
-            case "1/x": //this shit is called reciprocal
+            case "1/x": //reciprocal
                 result.setText(formatter.format(Double.parseDouble(String.valueOf(c.reciprocal(Double.parseDouble(getResultNum()))))));
                 break;
             case "x2": //squared
@@ -181,8 +181,6 @@ class StandardCalculator extends JFrame implements ActionListener{
                 result.setText(formatter.format(Double.parseDouble(String.valueOf(c.squareRoot(Double.parseDouble(getResultNum()))))));
                 break;
             case "-":
-                //i think kung naay prevOperator kay e execute nalang? 
-                //ye, lets try dat
                 currOperator = '-';
                 if(prevOperator != ' ') {
                     performOperation(prevOperator);
@@ -199,12 +197,10 @@ class StandardCalculator extends JFrame implements ActionListener{
                 prevNum = Double.parseDouble(getResultNum());
                 break;
             case "+":
-                //set the currOperator
                 currOperator = '+';
                 if(prevOperator != ' ') {
                     performOperation(prevOperator);
                 }
-                //set the prevNum
                 prevNum = Double.parseDouble(getResultNum());
                 break;
             case "÷":
@@ -231,15 +227,6 @@ class StandardCalculator extends JFrame implements ActionListener{
                 prevOperator = ' ';
                 break;
         }
-        // System.out.println("FROM ACTION PERFORMED: ");
-        System.out.println("Previous number: " + String.valueOf(prevNum));
-        System.out.println("Current number: " + String.valueOf(currNum));
-        System.out.println("Previous operator: " + prevOperator);
-        System.out.println("Current operator: " + currOperator);
-        // System.out.println(formatter.format(prevNum));
-        // System.out.println("Formatted Number: " + formatter.format(currNum));
-        System.out.println(" ");
-
     }
 
     private void setNumber(String num) {
@@ -247,31 +234,19 @@ class StandardCalculator extends JFrame implements ActionListener{
         if(currOperator == '=') {
             result.setText("");
         }
-        //if zero ang ga una remove dat shit 
-        //if 0 ang ga una unya naay dot pwede ra :)
-        //oke
         if(result.getText().startsWith("0") && !result.getText().contains(".")) {
-            //if result textfield starts with 0 but has no dot, reset the textfield
             result.setText("");
-            // System.out.println("aowkoakwoak");
         }
 
         if (currOperator != ' ') {
-            // System.out.println("e reset ang textifeld");
             prevOperator = currOperator;
             currOperator = ' ';
             result.setText("");
         }
-        //so if naay dot dili siya butngan ug comma
-        // System.out.println("Without formatter: " + Double.parseDouble(getResultNum() + num));
-        // System.out.println("With a formatter: " + formatter.format(x));
         if(result.getText().contains(".")) {
             System.out.println("GOGOGO");
             String str = getResultNum() + num;
-            // System.out.println("Not parsed: " + str);
-            //no other choice i have to use bigdecimal
             BigDecimal bigDecimalValue = new BigDecimal(str);
-            // System.out.println("but if parsed: " +formatter.format(bigDecimalValue));
             result.setText(bigDecimalValue.toPlainString());
         }
         else {
@@ -291,20 +266,9 @@ class StandardCalculator extends JFrame implements ActionListener{
 
     private void performOperation(char operator) {
         Calculate c = new Calculate();
-        //nganong mawala ang zero sa decimal places kung ibutang sa Double.parsedouble oi boang
-        // System.out.println("FROM EQUALS ");
-        // System.out.println("Previous number: " + String.valueOf(prevNum));
-        // System.out.println("Current number: " + String.valueOf(currNum));
-        // System.out.println(" ");
         switch(operator) {
             case '+':
                 prevNum = c.add(prevNum, currNum);
-                // String prevNum2 = formatNumber(prevNum);
-                // double prevNum3 = Double.parseDouble(prevNum2);
-                // String prevNum4 = formatter.format(prevNum3);
-                // System.out.println("prev num 2: " + prevNum2);
-                // System.out.println("prev num 3: " + prevNum3);
-                // System.out.println("prev num 4: " + prevNum4);
                 result.setText(formatter.format(Double.parseDouble(formatNumber(prevNum))));
                 break;
             case '-':
